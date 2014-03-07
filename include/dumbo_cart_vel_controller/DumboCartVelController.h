@@ -97,7 +97,7 @@ protected:
 
 	control_msgs::JointTrajectoryControllerState m_joint_state_msg;
 
-	boost::mutex m_mutex;
+	boost::mutex m_joint_state_mutex;
 
 	KDLWrapper m_dumbo_kdl_wrapper;
 

@@ -184,9 +184,9 @@ void DumboCartVelController::topicCallback_joint_states(const control_msgs::Join
 {
 	ROS_DEBUG("Received joint states");
 
-	m_mutex.lock();
+	m_joint_state_mutex.lock();
 	m_joint_state_msg = *msg;
-	m_mutex.unlock();
+	m_joint_state_mutex.unlock();
 
 	// search for joints in joint state msg
 	if(msg->actual.positions.size()==m_DOF)
@@ -284,9 +284,9 @@ bool DumboCartVelController::calculateJointVelCommand(const geometry_msgs::Twist
 
 	KDL::JntArray q_in(7);
 
-	m_mutex.lock();
+	m_joint_state_mutex.lock();
 	for(unsigned int i=0; i<7; i++) q_in(i) = m_joint_state_msg.actual.positions[i];
-	m_mutex.unlock();
+	m_joint_state_mutex.unlock();
 
 	bool ret = m_dumbo_kdl_wrapper.ik_solver_vel->CartToJnt(q_in, v_in, q_dot);
 
